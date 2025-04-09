@@ -1,22 +1,62 @@
 "use client";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Home from "./home/page";
+import AdminDashboard from "./admin/page";
+import AdminBlog from "./admin/blog/page";
+import AdminCertificate from "./admin/certificate/page";
+import AdminSkill from "./admin/skill/page";
+import AdminProject from "./admin/project/page";
 
-import { Contact } from "lucide-react";
-import Layout from "./components/sections/layout";
-import Blog from "./components/sections/Blog";
-import Hero from "./components/sections/Hero";
-import Projects from "./components/sections/Projects";
-import Skills from "./components/sections/Skills";
-
-export default function Home() {
+function App() {
   return (
-    <div>
-        <Layout>
-          <Hero />
-          <Skills />
-          <Projects />
-          <Blog />
-          <Contact />
-        </Layout>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/blog"
+          element={
+            <ProtectedRoute>
+              <AdminBlog />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/certificate"
+          element={
+            <ProtectedRoute>
+              <AdminCertificate />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/skill"
+          element={
+            <ProtectedRoute>
+              <AdminSkill />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/project"
+          element={
+            <ProtectedRoute>
+              <AdminProject />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
+
+export default App;
