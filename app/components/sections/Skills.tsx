@@ -1,33 +1,33 @@
-import { useState, useEffect } from 'react'
-import { Code, Database, TrendingUp } from 'lucide-react'
+import { useState, useEffect } from "react";
+import { Code, Database, TrendingUp } from "lucide-react";
 
 const skills = [
-  { name: 'JavaScript', category: 'Development', level: 90 },
-  { name: 'React', category: 'Development', level: 85 },
-  { name: 'Node.js', category: 'Development', level: 80 },
-  { name: 'Python', category: 'Data Science', level: 95 },
-  { name: 'TensorFlow', category: 'Data Science', level: 75 },
-  { name: 'SQL', category: 'Database', level: 85 },
-]
+  { name: "JavaScript", category: "Development", level: 90 },
+  { name: "React", category: "Development", level: 85 },
+  { name: "Node.js", category: "Development", level: 80 },
+  { name: "Python", category: "Data Science", level: 95 },
+  { name: "TensorFlow", category: "Data Science", level: 75 },
+  { name: "SQL", category: "Database", level: 85 },
+];
 
 export default function Skills() {
-  const [animated, setAnimated] = useState(false)
+  const [animated, setAnimated] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const element = document.getElementById('skills')
+      const element = document.getElementById("skills");
       if (element) {
-        const rect = element.getBoundingClientRect()
+        const rect = element.getBoundingClientRect();
         if (rect.top <= window.innerHeight && rect.bottom >= 0) {
-          setAnimated(true)
-          window.removeEventListener('scroll', handleScroll)
+          setAnimated(true);
+          window.removeEventListener("scroll", handleScroll);
         }
       }
-    }
+    };
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <section id="skills" className="bg-[#F5F5F5] text-[#11101D] py-20">
@@ -37,17 +37,23 @@ export default function Skills() {
           {skills.map((skill) => (
             <div key={skill.name} className="bg-white rounded-lg shadow-md p-6">
               <div className="flex items-center mb-4">
-                {skill.category === 'Development' && <Code className="text-[#FFAA00] mr-2" />}
-                {skill.category === 'Data Science' && <TrendingUp className="text-[#FFAA00] mr-2" />}
-                {skill.category === 'Database' && <Database className="text-[#FFAA00] mr-2" />}
+                {skill.category === "Development" && (
+                  <Code className="text-[#FFAA00] mr-2" />
+                )}
+                {skill.category === "Data Science" && (
+                  <TrendingUp className="text-[#FFAA00] mr-2" />
+                )}
+                {skill.category === "Database" && (
+                  <Database className="text-[#FFAA00] mr-2" />
+                )}
                 <h3 className="text-xl font-semibold">{skill.name}</h3>
               </div>
               <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
                 <div
                   className={`h-full bg-[#FFAA00] transition-all duration-1000 ease-out ${
-                    animated ? '' : 'w-0'
+                    animated ? "" : "w-0"
                   }`}
-                  style={{ width: animated ? `${skill.level}%` : '0%' }}
+                  style={{ width: animated ? `${skill.level}%` : "0%" }}
                 ></div>
               </div>
             </div>
@@ -55,5 +61,5 @@ export default function Skills() {
         </div>
       </div>
     </section>
-  )
+  );
 }

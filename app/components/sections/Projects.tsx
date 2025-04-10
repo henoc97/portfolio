@@ -1,30 +1,33 @@
-import { useState } from 'react'
-import { Github, ExternalLink } from 'lucide-react'
+import { useState } from "react";
+import { Github, ExternalLink } from "lucide-react";
 
 const projects = [
   {
-    title: 'E-commerce Platform',
-    description: 'A fullstack e-commerce solution built with React, Node.js, and MongoDB.',
-    image: '/img/tof.JPG?height=200&width=300',
-    github: 'https://github.com',
-    demo: 'https://example.com',
-    category: 'Fullstack',
+    title: "E-commerce Platform",
+    description:
+      "A fullstack e-commerce solution built with React, Node.js, and MongoDB.",
+    image: "/img/tof.JPG?height=200&width=300",
+    github: "https://github.com",
+    demo: "https://example.com",
+    category: "Fullstack",
   },
   {
-    title: 'Sentiment Analysis Tool',
-    description: 'A machine learning model for sentiment analysis of customer reviews.',
-    image: '/img/tof.JPG?height=200&width=300',
-    github: 'https://github.com',
-    demo: 'https://example.com',
-    category: 'Data Science',
+    title: "Sentiment Analysis Tool",
+    description:
+      "A machine learning model for sentiment analysis of customer reviews.",
+    image: "/img/tof.JPG?height=200&width=300",
+    github: "https://github.com",
+    demo: "https://example.com",
+    category: "Data Science",
   },
   // Add more projects here
-]
+];
 
 export default function Projects() {
-  const [filter, setFilter] = useState('All')
+  const [filter, setFilter] = useState("All");
 
-  const filteredProjects = filter === 'All' ? projects : projects.filter(p => p.category === filter)
+  const filteredProjects =
+    filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
   return (
     <section id="projects" className="py-20">
@@ -33,25 +36,31 @@ export default function Projects() {
         <div className="flex justify-center mb-8">
           <button
             className={`mx-2 px-4 py-2 rounded-full ${
-              filter === 'All' ? 'bg-[#FFAA00] text-[#11101D]' : 'bg-[#F5F5F5] text-[#11101D]'
+              filter === "All"
+                ? "bg-[#FFAA00] text-[#11101D]"
+                : "bg-[#F5F5F5] text-[#11101D]"
             }`}
-            onClick={() => setFilter('All')}
+            onClick={() => setFilter("All")}
           >
             All
           </button>
           <button
             className={`mx-2 px-4 py-2 rounded-full ${
-              filter === 'Fullstack' ? 'bg-[#FFAA00] text-[#11101D]' : 'bg-[#F5F5F5] text-[#11101D]'
+              filter === "Fullstack"
+                ? "bg-[#FFAA00] text-[#11101D]"
+                : "bg-[#F5F5F5] text-[#11101D]"
             }`}
-            onClick={() => setFilter('Fullstack')}
+            onClick={() => setFilter("Fullstack")}
           >
             Fullstack
           </button>
           <button
             className={`mx-2 px-4 py-2 rounded-full ${
-              filter === 'Data Science' ? 'bg-[#FFAA00] text-[#11101D]' : 'bg-[#F5F5F5] text-[#11101D]'
+              filter === "Data Science"
+                ? "bg-[#FFAA00] text-[#11101D]"
+                : "bg-[#F5F5F5] text-[#11101D]"
             }`}
-            onClick={() => setFilter('Data Science')}
+            onClick={() => setFilter("Data Science")}
           >
             Data Science
           </button>
@@ -62,9 +71,15 @@ export default function Projects() {
               key={index}
               className="bg-[#F5F5F5] rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-200"
             >
-              <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-48 object-cover"
+              />
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-[#11101D]">{project.title}</h3>
+                <h3 className="text-xl font-semibold mb-2 text-[#11101D]">
+                  {project.title}
+                </h3>
                 <p className="text-gray-600 mb-4">{project.description}</p>
                 <div className="flex justify-between">
                   <a
@@ -90,5 +105,5 @@ export default function Projects() {
         </div>
       </div>
     </section>
-  )
+  );
 }

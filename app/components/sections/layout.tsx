@@ -1,22 +1,42 @@
-"use client"
-import { useState } from 'react'
-import Link from 'next/link'
-import { Menu, X, Code, BarChart2, Briefcase, FileText, Mail } from 'lucide-react'
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import {
+  Menu,
+  X,
+  Code,
+  BarChart2,
+  Briefcase,
+  FileText,
+  Mail,
+} from "lucide-react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { name: 'About', href: '#about', icon: Code },
-    { name: 'Skills', href: '#skills', icon: BarChart2 },
-    { name: 'Projects', href: '#projects', icon: Briefcase },
-    { name: 'Blog', href: '#blog', icon: FileText },
-    { name: 'Contact', href: '#contact', icon: Mail },
-  ]
+    { name: "About", href: "#about", icon: Code },
+    { name: "Skills", href: "#skills", icon: BarChart2 },
+    { name: "Projects", href: "#projects", icon: Briefcase },
+    { name: "Blog", href: "#blog", icon: FileText },
+    { name: "Contact", href: "#contact", icon: Mail },
+  ];
 
   return (
-    <div className="min-h-screen bg-[#11101D] text-[#F5F5F5]">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#11101D] shadow-md">
+    <div className="min-h-screen text-[#F5F5F5] relative">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/1.png')",
+          height: "24%",
+          width: "100%",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+      </div>
+      <header className="sticky top-0 z-50 w-full bg-[#11101D]/40 backdrop-blur-sm backdrop-filter">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-[#FFAA00]">
             JS
@@ -59,5 +79,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       )}
       <main className="pt-16">{children}</main>
     </div>
-  )
+  );
 }
