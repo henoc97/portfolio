@@ -10,7 +10,7 @@ export default function Hero() {
       <div className="md:w-1/2 mb-8 md:mb-0">
         <Image
           src="/img/0.png"
-          alt="John Smith"
+          alt="Hénoc AMAVIGAN"
           width={400}
           height={400}
           className="rounded-full shadow-lg"

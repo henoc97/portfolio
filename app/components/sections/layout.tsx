@@ -38,9 +38,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
       <header className="sticky top-0 z-50 w-full bg-[#11101D]/40 backdrop-blur-sm backdrop-filter">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-[#FFAA00]">
-            JS
-          </Link>
+          <div></div>
           <div className="hidden md:flex space-x-6">
             {navItems.map((item) => (
               <Link

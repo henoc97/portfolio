@@ -30,12 +30,15 @@ export default function Skills() {
   }, []);
 
   return (
-    <section id="skills" className="bg-[#F5F5F5] text-[#11101D] py-20">
+    <section id="skills" className="py-20">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-center">Skills</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skills.map((skill) => (
-            <div key={skill.name} className="bg-white rounded-lg shadow-md p-6">
+            <div
+              key={skill.name}
+              className="bg-[#11101D]/40 backdrop-blur-sm backdrop-filter rounded-lg shadow-md p-6"
+            >
               <div className="flex items-center mb-4">
                 {skill.category === "Development" && (
                   <Code className="text-[#FFAA00] mr-2" />

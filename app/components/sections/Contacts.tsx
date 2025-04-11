@@ -1,32 +1,53 @@
-import { useState } from 'react'
-import { Send } from 'lucide-react'
+import { useState } from "react";
+import { Send } from "lucide-react";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  })
+    name: "",
+    email: "",
+    message: "",
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     // Here you would typically send the form data to your backend or a service like SendGrid
-    console.log('Form submitted:', formData)
+    console.log("Form submitted:", formData);
     // Reset form after submission
-    setFormData({ name: '', email: '', message: '' })
-  }
+    setFormData({ name: "", email: "", message: "" });
+  };
 
   return (
-    <section id="contact" className="py-20">
+    <section
+      id="contact"
+      className="bg-[#11101D]/70 backdrop-blur-sm backdrop-filter text-[#F5F5F5] py-20"
+    >
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/5.png')",
+          height: "100%",
+          width: "100%",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          zIndex: -1,
+        }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+      </div>
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-center">Contact Me</h2>
         <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-[#F5F5F5] mb-2">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-[#F5F5F5] mb-2"
+            >
               Name
             </label>
             <input
@@ -40,7 +61,10 @@ export default function Contact() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-[#F5F5F5] mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-[#F5F5F5] mb-2"
+            >
               Email
             </label>
             <input
@@ -54,7 +78,10 @@ export default function Contact() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="message" className="block text-sm font-medium text-[#F5F5F5] mb-2">
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-[#F5F5F5] mb-2"
+            >
               Message
             </label>
             <textarea
@@ -77,5 +104,5 @@ export default function Contact() {
         </form>
       </div>
     </section>
-  )
+  );
 }
