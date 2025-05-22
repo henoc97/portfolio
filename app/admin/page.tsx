@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const AdminDashboard: React.FC = () => {
   return (
@@ -10,16 +10,16 @@ const AdminDashboard: React.FC = () => {
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">Admin Dashboard</h1>
           <div className="space-x-4">
-            <Link to="/dashboard/blog">
+            <Link href="/admin/blog">
               <Button>Blog</Button>
             </Link>
-            <Link to="/dashboard/certificate">
+            <Link href="/admin/certificate">
               <Button>Certificate</Button>
             </Link>
-            <Link to="/dashboard/skill">
+            <Link href="/admin/skill">
               <Button>Skill</Button>
             </Link>
-            <Link to="/dashboard/project">
+            <Link href="/admin/project">
               <Button>Project</Button>
             </Link>
           </div>

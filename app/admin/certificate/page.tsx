@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardFooter } from "@/components/ui/card";
 import { ExternalLink } from "lucide-react";
 import { handleUpload } from "@/app/application/services/upload-image.service";
-import { uploadPDF } from "@/app/application/services/upload-pdf.service";
 
 const AdminCertificate: React.FC = () => {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
