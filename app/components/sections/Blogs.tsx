@@ -1,26 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import blogService from "@/app/application/services/blog.service";
+import Blog from "@/app/application/models/blog";
 
-const blogPosts = [
-  {
-    title: "Building Scalable Web Applications with React and Node.js",
-    excerpt:
-      "Learn how to create robust and scalable web applications using React for the frontend and Node.js for the backend.",
-    date: "2023-05-15",
-    category: "Fullstack",
-  },
-  {
-    title: "Introduction to Machine Learning with Python",
-    excerpt:
-      "Dive into the world of machine learning using Python and popular libraries like scikit-learn and TensorFlow.",
-    date: "2023-05-01",
-    category: "Data Science",
-  },
-  // Add more blog posts here
-];
-
-export default function Blog() {
+export default function Blogs() {
   const [filter, setFilter] = useState("All");
+  const [blogPosts, setBlogPosts] = useState<Blog[]>([]);
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      const blogPosts = await blogService.getBlogs();
+      setBlogPosts(blogPosts);
+    };
+    fetchBlogPosts();
+  }, []);
 
   const filteredPosts =
     filter === "All"
@@ -90,7 +83,9 @@ export default function Blog() {
                 </h3>
                 <p className="text-gray-600 mb-4">{post.excerpt}</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">{post.date}</span>
+                  <span className="text-sm text-gray-500">
+                    {post.date.toLocaleDateString()}
+                  </span>
                   <Link
                     href={`/blog/${post.title
                       .toLowerCase()

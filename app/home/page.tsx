@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import Hero from "../components/sections/Hero";
-import Blog from "../components/sections/Blog";
+import Blog from "../components/sections/Blogs";
 import Skills from "../components/sections/Skills";
 import Projects from "../components/sections/Projects";
 import Contact from "../components/sections/Contacts";
 import Layout from "../components/sections/layout";
-import Certificates from "../components/sections/Certificate";
+import Certificates from "../components/sections/Certificates";
 
 export default function Home() {
   return (

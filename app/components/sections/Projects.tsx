@@ -1,30 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Github, ExternalLink } from "lucide-react";
-
-const projects = [
-  {
-    title: "E-commerce Platform",
-    description:
-      "A fullstack e-commerce solution built with React, Node.js, and MongoDB.",
-    image: "/img/tof.JPG?height=200&width=300",
-    github: "https://github.com",
-    demo: "https://example.com",
-    category: "Fullstack",
-  },
-  {
-    title: "Sentiment Analysis Tool",
-    description:
-      "A machine learning model for sentiment analysis of customer reviews.",
-    image: "/img/tof.JPG?height=200&width=300",
-    github: "https://github.com",
-    demo: "https://example.com",
-    category: "Data Science",
-  },
-  // Add more projects here
-];
+import Project from "@/app/application/models/project";
+import projectService from "@/app/application/services/project.service";
 
 export default function Projects() {
   const [filter, setFilter] = useState("All");
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const projects = await projectService.getProjects();
+      setProjects(projects);
+    };
+    fetchProjects();
+  }, []);
 
   const filteredProjects =
     filter === "All" ? projects : projects.filter((p) => p.category === filter);

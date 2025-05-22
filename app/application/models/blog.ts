@@ -2,13 +2,15 @@
 class Blog {
     id: string;
     title: string;
-    content: string;
+    excerpt: string;
+    category: string;
     date: Date;
 
-    constructor(id: string, title: string, content: string, date: Date) {
+    constructor(id: string, title: string, excerpt: string, category: string, date: Date) {
         this.id = id;
         this.title = title;
-        this.content = content;
+        this.excerpt = excerpt;
+        this.category = category;
         this.date = date;
     }
 }

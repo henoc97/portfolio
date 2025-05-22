@@ -9,7 +9,8 @@ const blogService = {
         return snapshot.docs.map(doc => ({
             id: doc.id,
             title: doc.data().title,
-            content: doc.data().content,
+            excerpt: doc.data().excerpt,
+            category: doc.data().category,
             date: doc.data().date.toDate() // Convertir Timestamp en Date
         }));
     },
@@ -17,7 +18,8 @@ const blogService = {
     async createBlog(blog: Blog): Promise<Blog> {
         const docRef = await addDoc(collection(db, 'blogs'), {
             title: blog.title,
-            content: blog.content,
+            excerpt: blog.excerpt,
+            category: blog.category,
             date: blog.date
         });
         blog.id = docRef.id;
@@ -27,7 +29,8 @@ const blogService = {
     async updateBlog(blog: Blog): Promise<void> {
         await setDoc(doc(db, 'blogs', blog.id!), {
             title: blog.title,
-            content: blog.content,
+            excerpt: blog.excerpt,
+            category: blog.category,
             date: blog.date
         });
     },

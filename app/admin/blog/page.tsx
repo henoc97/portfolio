@@ -18,9 +18,11 @@ const AdminBlog: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [newBlog, setNewBlog] = useState<Partial<Blog>>({
     title: "",
-    content: "",
+    excerpt: "",
+    category: "",
     date: new Date(),
   });
+  const [editingBlog, setEditingBlog] = useState<Partial<Blog> | null>(null);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -31,16 +33,45 @@ const AdminBlog: React.FC = () => {
   }, []);
 
   const handleCreateBlog = async () => {
-    if (newBlog.title && newBlog.content) {
+    if (newBlog.title && newBlog.excerpt && newBlog.category) {
       const createdBlog = await blogService.createBlog(newBlog as Blog);
       setBlogs([...blogs, createdBlog]);
-      setNewBlog({ title: "", content: "", date: new Date() });
+      setNewBlog({ title: "", excerpt: "", category: "", date: new Date() });
     }
   };
 
-  const handleUpdateBlog = async (blog: Blog) => {
-    await blogService.updateBlog(blog);
-    setBlogs(blogs.map((b) => (b.id === blog.id ? blog : b)));
+  const handleUpdateBlog = (blog: Blog) => {
+    setNewBlog({
+      title: blog.title,
+      excerpt: blog.excerpt,
+      category: blog.category,
+      date: blog.date,
+    });
+    setEditingBlog(blog);
+  };
+
+  const handleUpdate = async () => {
+    if (editingBlog && editingBlog.id) {
+      try {
+        const updatedBlog: Blog = {
+          id: editingBlog.id,
+          title: newBlog.title || "",
+          excerpt: newBlog.excerpt || "",
+          category: newBlog.category || "",
+          date: new Date(), // tu peux choisir d'utiliser newBlog.date si tu veux le conserver
+        };
+
+        await blogService.updateBlog(updatedBlog);
+
+        setBlogs(blogs.map((b) => (b.id === editingBlog.id ? updatedBlog : b)));
+
+        // Réinitialisation
+        setNewBlog({ title: "", excerpt: "", category: "", date: new Date() });
+        setEditingBlog(null);
+      } catch (error) {
+        console.error("Error updating blog:", error);
+      }
+    }
   };
 
   const handleDeleteBlog = async (id: string) => {
@@ -60,13 +91,28 @@ const AdminBlog: React.FC = () => {
             onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })}
           />
           <Textarea
-            placeholder="Content"
-            value={newBlog.content}
+            placeholder="Excerpt"
+            value={newBlog.excerpt}
             onChange={(e) =>
-              setNewBlog({ ...newBlog, content: e.target.value })
+              setNewBlog({ ...newBlog, excerpt: e.target.value })
             }
           />
-          <Button onClick={handleCreateBlog}>Create Blog</Button>
+          <select
+            className="border rounded p-2 w-full mb-4"
+            value={newBlog.category}
+            onChange={(e) =>
+              setNewBlog({ ...newBlog, category: e.target.value })
+            }
+          >
+            <option value="" disabled>
+              Select a category
+            </option>
+            <option value="Fullstack">Fullstack</option>
+            <option value="Data Science">Data science</option>
+          </select>
+          <Button onClick={editingBlog ? handleUpdate : handleCreateBlog}>
+            {editingBlog ? "Update Blog" : "Create Blog"}
+          </Button>
         </div>
       </div>
       <div>
@@ -78,11 +124,8 @@ const AdminBlog: React.FC = () => {
                 <CardTitle className="text-lg font-bold">
                   {blog.title}
                 </CardTitle>
-                <CardDescription>{blog.content}</CardDescription>
+                <CardDescription>{blog.excerpt}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <p>{blog.content}</p>
-              </CardContent>
               <CardFooter className="flex space-x-4">
                 <Button onClick={() => handleUpdateBlog(blog)}>Update</Button>
                 <Button onClick={() => handleDeleteBlog(blog.id!)}>

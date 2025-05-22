@@ -9,7 +9,10 @@ const projectService = {
             id: doc.id,
             title: doc.data().title,
             description: doc.data().description,
-            link: doc.data().link
+            image: doc.data().image,
+            github: doc.data().github,
+            demo: doc.data().demo,
+            category: doc.data().category
         }));
     },
 
@@ -17,7 +20,10 @@ const projectService = {
         const docRef = await addDoc(collection(db, 'projects'), {
             title: project.title,
             description: project.description,
-            link: project.link
+            image: project.image,
+            github: project.github,
+            demo: project.demo,
+            category: project.category
         });
         project.id = docRef.id;
         return project;
@@ -27,7 +33,10 @@ const projectService = {
         await setDoc(doc(db, 'projects', project.id!), {
             title: project.title,
             description: project.description,
-            link: project.link
+            image: project.image,
+            github: project.github,
+            demo: project.demo,
+            category: project.category
         });
     },
 
