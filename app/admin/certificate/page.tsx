@@ -48,15 +48,6 @@ const AdminCertificate: React.FC = () => {
     }
   };
 
-  const _handlePDFUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.target.files && event.target.files[0]) {
-      const pdfUrl = await uploadPDF(event.target.files[0]);
-      setNewCertificate({ ...newCertificate, link: pdfUrl });
-    }
-  };
-
   const handleUpdateCertificate = (certificate: Certificate) => {
     setEditingCertificate(certificate);
     setNewCertificate({

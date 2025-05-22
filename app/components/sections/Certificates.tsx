@@ -1,10 +1,10 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import certificateService from "@/app/application/services/certificate.service";
 import Certificate from "@/app/application/models/certificate";
 
 export default function Certificates() {
-  const [filter, setFilter] = useState("Tous");
+  const [filter] = useState("Tous");
   const [certificates, setCertificates] = useState<Certificate[]>([]);
 
   useEffect(() => {

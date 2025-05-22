@@ -12,7 +12,7 @@ export const handleUpload = async (image: File) => {
 
 export const handleDelete = async (imageUrl: string) => {
     const publicId = imageUrl.split("/").pop()?.split(".")[0];
-    const res = await axios.delete(`https://api.cloudinary.com/v1_1/dgybllr0w/image/destroy`, {
+    await axios.delete(`https://api.cloudinary.com/v1_1/dgybllr0w/image/destroy`, {
         data: {
             public_id: publicId
         }

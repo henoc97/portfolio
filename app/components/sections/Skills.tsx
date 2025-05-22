@@ -15,7 +15,7 @@ const skills = [
 ];
 
 export default function Skills() {
-  const [animated, setAnimated] = useState(false);
+  const [_, setAnimated] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
