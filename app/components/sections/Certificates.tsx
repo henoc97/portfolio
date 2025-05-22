@@ -1,33 +1,24 @@
-import { useState } from "react";
-import { Github, ExternalLink } from "lucide-react";
-
-const projects = [
-  {
-    title: "E-commerce Platform",
-    description:
-      "A fullstack e-commerce solution built with React, Node.js, and MongoDB.",
-    image: "/img/tof.JPG?height=200&width=300",
-    github: "https://github.com",
-    demo: "https://example.com",
-    category: "Fullstack",
-  },
-  {
-    title: "Sentiment Analysis Tool",
-    description:
-      "A machine learning model for sentiment analysis of customer reviews.",
-    image: "/img/tof.JPG?height=200&width=300",
-    github: "https://github.com",
-    demo: "https://example.com",
-    category: "Data Science",
-  },
-  // Add more projects here
-];
+import { use, useEffect, useState } from "react";
+import { ExternalLink } from "lucide-react";
+import certificateService from "@/app/application/services/certificate.service";
+import Certificate from "@/app/application/models/certificate";
 
 export default function Certificates() {
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("Tous");
+  const [certificates, setCertificates] = useState<Certificate[]>([]);
+
+  useEffect(() => {
+    const fetchCertificates = async () => {
+      const certificates = await certificateService.getCertificates();
+      setCertificates(certificates);
+    };
+    fetchCertificates();
+  }, []);
 
   const filteredProjects =
-    filter === "All" ? projects : projects.filter((p) => p.category === filter);
+    filter === "Tous"
+      ? certificates
+      : certificates.filter((c) => c.name === filter);
 
   return (
     <section id="certificate" className="relative py-20">
@@ -46,7 +37,7 @@ export default function Certificates() {
       </div>
       <div className="container mx-auto px-4 relative z-10">
         <h2 className="text-3xl font-bold mb-8 text-center text-[#F5F5F5]">
-          Certificate
+          Certifications
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project, index) => (
@@ -56,25 +47,17 @@ export default function Certificates() {
             >
               <img
                 src={project.image}
-                alt={project.title}
-                className="w-full h-48 object-cover"
+                alt={project.name}
+                className="w-full h-48 object-cover rounded-t-lg"
               />
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2 text-[#11101D]">
-                  {project.title}
+                  {project.name}
                 </h3>
                 <p className="text-gray-600 mb-4">{project.description}</p>
                 <div className="flex justify-between">
                   <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#FFAA00] hover:text-[#11101D] transition-colors duration-200"
-                  >
-                    <Github size={24} />
-                  </a>
-                  <a
-                    href={project.demo}
+                    href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[#FFAA00] hover:text-[#11101D] transition-colors duration-200"

@@ -15,9 +15,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { name: "About", href: "#about", icon: Code },
-    { name: "Skills", href: "#skills", icon: BarChart2 },
-    { name: "Projects", href: "#projects", icon: Briefcase },
+    { name: "À propos", href: "#about", icon: Code },
+    { name: "Compétences", href: "#skills", icon: BarChart2 },
+    { name: "Projets", href: "#projects", icon: Briefcase },
     { name: "Blog", href: "#blog", icon: FileText },
     { name: "Contact", href: "#contact", icon: Mail },
   ];

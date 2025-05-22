@@ -1,9 +1,5 @@
 "use client";
 
-// Importez Firebase
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
 import Hero from "../components/sections/Hero";
 import Blog from "../components/sections/Blogs";
 import Skills from "../components/sections/Skills";

@@ -193,13 +193,13 @@ const AdminProject: React.FC = () => {
       </div>
       <div>
         <h2 className="text-xl font-semibold mb-4">Existing Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
             <Card key={project.id}>
               <img
                 src={project.image}
                 alt={project.title}
-                className="w-full h-48 object-cover"
+                className="w-full h-48 object-cover rounded-t-lg"
               />
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2 text-[#11101D]">

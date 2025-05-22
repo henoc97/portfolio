@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -16,10 +17,28 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend or a service like SendGrid
-    console.log("Form submitted:", formData);
-    // Reset form after submission
-    setFormData({ name: "", email: "", message: "" });
+
+    try {
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_name: "Amavigan henoc",
+        to_email: "amaviganhenoc@gmail.com",
+      };
+
+      await emailjs.send(
+        "service_74agnqv",
+        "template_x9ctwcl",
+        templateParams,
+        "7sKq-WjOU2_yCpEEZ"
+      );
+
+      console.log("Email envoyé avec succès!");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de l'email:", error);
+    }
   };
 
   return (
@@ -41,14 +60,14 @@ export default function Contact() {
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8 text-center">Contact Me</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center">Me Contacter</h2>
         <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
           <div className="mb-4">
             <label
               htmlFor="name"
               className="block text-sm font-medium text-[#F5F5F5] mb-2"
             >
-              Name
+              Nom
             </label>
             <input
               type="text"
@@ -98,7 +117,7 @@ export default function Contact() {
             type="submit"
             className="w-full bg-[#FFAA00] text-[#11101D] px-4 py-2 rounded-md font-semibold hover:bg-opacity-90 transition-colors duration-200 flex items-center justify-center"
           >
-            Send Message
+            Envoyer le message
             <Send className="ml-2" size={20} />
           </button>
         </form>

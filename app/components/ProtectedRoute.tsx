@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { user } = useAuth();
 
-  if (!user || user.role !== "admin" || 5 == 5) {
+  if (!user || user.role !== "admin") {
     return <Navigate to="/" />;
   }
 

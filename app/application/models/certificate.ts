@@ -2,14 +2,16 @@
 class Certificate {
     id: string;
     name: string;
-    issuer: string;
-    date: Date;
+    description: string;
+    image: string;
+    link: string;
 
-    constructor(id: string, name: string, issuer: string, date: Date) {
+    constructor(id: string, name: string, description: string, image: string, link: string) {
         this.id = id;
         this.name = name;
-        this.issuer = issuer;
-        this.date = date;
+        this.description = description;
+        this.image = image;
+        this.link = link;
     }
 }
 

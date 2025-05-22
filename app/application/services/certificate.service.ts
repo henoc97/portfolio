@@ -10,16 +10,18 @@ const certificateService = {
         return snapshot.docs.map(doc => ({
             id: doc.id,
             name: doc.data().name,
-            issuer: doc.data().issuer,
-            date: doc.data().date.toDate() // Convertir Timestamp en Date
+            description: doc.data().description,
+            image: doc.data().image,
+            link: doc.data().link
         }));
     },
 
     async createCertificate(certificate: Certificate): Promise<Certificate> {
         const docRef = await addDoc(collection(db, 'certificates'), {
             name: certificate.name,
-            issuer: certificate.issuer,
-            date: certificate.date
+            description: certificate.description,
+            image: certificate.image,
+            link: certificate.link
         });
         certificate.id = docRef.id;
         return certificate;
@@ -28,8 +30,9 @@ const certificateService = {
     async updateCertificate(certificate: Certificate): Promise<void> {
         await setDoc(doc(db, 'certificates', certificate.id!), {
             name: certificate.name,
-            issuer: certificate.issuer,
-            date: certificate.date
+            description: certificate.description,
+            image: certificate.image,
+            link: certificate.link
         });
     },
 

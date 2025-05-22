@@ -4,7 +4,7 @@ import blogService from "@/app/application/services/blog.service";
 import Blog from "@/app/application/models/blog";
 
 export default function Blogs() {
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("Tous");
   const [blogPosts, setBlogPosts] = useState<Blog[]>([]);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function Blogs() {
   }, []);
 
   const filteredPosts =
-    filter === "All"
+    filter === "Tous"
       ? blogPosts
       : blogPosts.filter((p) => p.category === filter);
 
@@ -42,13 +42,13 @@ export default function Blogs() {
         <div className="flex justify-center mb-8">
           <button
             className={`mx-2 px-4 py-2 rounded-full ${
-              filter === "All"
+              filter === "Tous"
                 ? "bg-[#FFAA00] text-[#11101D]"
                 : "bg-[#11101D] text-[#F5F5F5]"
             }`}
-            onClick={() => setFilter("All")}
+            onClick={() => setFilter("Tous")}
           >
-            All
+            Tous
           </button>
           <button
             className={`mx-2 px-4 py-2 rounded-full ${
@@ -68,7 +68,7 @@ export default function Blogs() {
             }`}
             onClick={() => setFilter("Data Science")}
           >
-            Data Science
+            Science des Données
           </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -84,15 +84,15 @@ export default function Blogs() {
                 <p className="text-gray-600 mb-4">{post.excerpt}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-500">
-                    {post.date.toLocaleDateString()}
+                    {post.date.toLocaleDateString("fr-FR")}
                   </span>
                   <Link
-                    href={`/blog/${post.title
-                      .toLowerCase()
-                      .replace(/ /g, "-")}`}
+                    href={post.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-[#FFAA00] hover:text-[#11101D] transition-colors duration-200"
                   >
-                    Read more
+                    Lire la suite
                   </Link>
                 </div>
               </div>

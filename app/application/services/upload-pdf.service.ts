@@ -1,7 +1,7 @@
 import axios from "axios";
 import { data } from "react-router-dom";
 
-const uploadPDF = async (file: File) => {
+export const uploadPDF = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "portfolio_preset");
