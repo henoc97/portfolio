@@ -5,8 +5,6 @@ import SkillService from "@/app/application/services/skill.service";
 
 export default function Skills() {
   const [skills, setSkills] = useState<Skill[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSkills = async () => {
@@ -14,19 +12,12 @@ export default function Skills() {
         const skillsData = await SkillService.getSkills();
         setSkills(skillsData);
       } catch (err) {
-        setError("Erreur lors du chargement des compétences");
         console.error(err);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchSkills();
   }, []);
-
-  if (loading) return <div className="text-center py-20">Chargement...</div>;
-  if (error)
-    return <div className="text-center py-20 text-red-500">{error}</div>;
 
   return (
     <section id="skills" className="py-20">
