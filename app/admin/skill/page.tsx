@@ -1,6 +1,5 @@
 "use client";
-import Skill from "@/app/application/models/skill";
-import skillService from "@/app/application/services/skill.service";
+import { Skill } from "@/app/application/models/skill";
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,13 +11,26 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import skillService from "@/app/application/services/skill.service";
+
+const CATEGORIES = ["Données/IA", "Backends", "Frontends", "Langages"];
 
 const AdminSkill: React.FC = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [newSkill, setNewSkill] = useState<Partial<Skill>>({
     name: "",
-    level: "",
+    category: "",
+    elements: [],
   });
+  const [newElement, setNewElement] = useState("");
 
   useEffect(() => {
     const fetchSkills = async () => {
@@ -29,10 +41,11 @@ const AdminSkill: React.FC = () => {
   }, []);
 
   const handleCreateSkill = async () => {
-    if (newSkill.name && newSkill.level) {
+    if (newSkill.name && newSkill.category && newSkill.elements?.length) {
       const createdSkill = await skillService.createSkill(newSkill as Skill);
       setSkills([...skills, createdSkill]);
-      setNewSkill({ name: "", level: "" });
+      setNewSkill({ name: "", category: "", elements: [] });
+      setNewElement("");
     }
   };
 
@@ -46,29 +59,87 @@ const AdminSkill: React.FC = () => {
     setSkills(skills.filter((s) => s.id !== id));
   };
 
+  const addElement = () => {
+    if (newElement.trim()) {
+      setNewSkill({
+        ...newSkill,
+        elements: [...(newSkill.elements || []), newElement.trim()],
+      });
+      setNewElement("");
+    }
+  };
+
+  const removeElement = (index: number) => {
+    setNewSkill({
+      ...newSkill,
+      elements: newSkill.elements?.filter((_, i) => i !== index),
+    });
+  };
+
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Admin Skill</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        Administration des Compétences
+      </h1>
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Create New Skill</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          Créer une nouvelle compétence
+        </h2>
         <div className="space-y-4">
           <Input
-            placeholder="Name"
+            placeholder="Nom de la compétence"
             value={newSkill.name}
             onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
           />
-          <Input
-            placeholder="Level"
-            value={newSkill.level}
-            onChange={(e) =>
-              setNewSkill({ ...newSkill, level: e.target.value })
+          <Select
+            value={newSkill.category}
+            onValueChange={(value: string) =>
+              setNewSkill({ ...newSkill, category: value })
             }
-          />
-          <Button onClick={handleCreateSkill}>Create Skill</Button>
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Sélectionner une catégorie" />
+            </SelectTrigger>
+            <SelectContent>
+              {CATEGORIES.map((category) => (
+                <SelectItem key={category} value={category}>
+                  {category}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <div className="space-y-2">
+            <div className="flex gap-2">
+              <Input
+                placeholder="Ajouter un élément"
+                value={newElement}
+                onChange={(e) => setNewElement(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && addElement()}
+              />
+              <Button onClick={addElement}>Ajouter</Button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {newSkill.elements?.map((element, index) => (
+                <div
+                  key={index}
+                  className="bg-secondary px-2 py-1 rounded-md flex items-center gap-2"
+                >
+                  <span>{element}</span>
+                  <button
+                    onClick={() => removeElement(index)}
+                    className="text-destructive hover:text-destructive/80"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <Button onClick={handleCreateSkill}>Créer la compétence</Button>
         </div>
       </div>
       <div>
-        <h2 className="text-xl font-semibold mb-4">Existing Skills</h2>
+        <h2 className="text-xl font-semibold mb-4">Compétences existantes</h2>
         <div className="space-y-4">
           {skills.map((skill) => (
             <Card key={skill.id}>
@@ -76,15 +147,32 @@ const AdminSkill: React.FC = () => {
                 <CardTitle className="text-lg font-bold">
                   {skill.name}
                 </CardTitle>
-                <CardDescription>Level: {skill.level}</CardDescription>
+                <CardDescription>Catégorie: {skill.category}</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>Level: {skill.level}</p>
+                <div className="flex flex-wrap gap-2">
+                  {skill.elements.map((element, index) => (
+                    <div
+                      key={index}
+                      className="bg-secondary px-2 py-1 rounded-md"
+                    >
+                      {element}
+                    </div>
+                  ))}
+                </div>
               </CardContent>
               <CardFooter className="flex space-x-4">
-                <Button onClick={() => handleUpdateSkill(skill)}>Update</Button>
-                <Button onClick={() => handleDeleteSkill(skill.id!)}>
-                  Delete
+                <Button
+                  variant="outline"
+                  onClick={() => handleUpdateSkill(skill)}
+                >
+                  Modifier
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => handleDeleteSkill(skill.id!)}
+                >
+                  Supprimer
                 </Button>
               </CardFooter>
             </Card>

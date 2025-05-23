@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import certificateService from "@/app/application/services/certificate.service";
 import Certificate from "@/app/application/models/certificate";
+import blurData from "@/public/img/blur-data.json";
+import Image from "next/image";
 
 export default function Certificates() {
   const [filter] = useState("Tous");
@@ -22,17 +24,17 @@ export default function Certificates() {
 
   return (
     <section id="certificate" className="relative py-20">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/img/4.png')",
-          height: "100%",
-          width: "100%",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          zIndex: -1,
-        }}
-      >
+      <div className="absolute inset-0 w-full h-full">
+        <Image
+          src="/img/4.png"
+          alt="Background"
+          fill
+          priority
+          placeholder="blur"
+          blurDataURL={blurData["4.png"]}
+          className="object-cover"
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
       <div className="container mx-auto px-4 relative z-10">

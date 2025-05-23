@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import blurData from "@/public/img/blur-data.json";
 
 export default function Hero() {
   return (
@@ -13,6 +14,9 @@ export default function Hero() {
           alt="Hénoc AMAVIGAN"
           width={400}
           height={400}
+          placeholder="blur"
+          priority
+          blurDataURL={blurData["0.png"]}
           className="rounded-full shadow-lg"
         />
       </div>

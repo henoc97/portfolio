@@ -7,25 +7,27 @@ import Projects from "./components/sections/Projects";
 import Contact from "./components/sections/Contacts";
 import Layout from "./components/sections/layout";
 import Certificates from "./components/sections/Certificates";
+import blurData from "@/public/img/blur-data.json";
 import { FaLinkedin, FaGithub, FaWhatsapp, FaTwitter } from "react-icons/fa";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <div>
       <Layout>
         <Hero />
-        <div className="relative">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: "url('/img/2.png')",
-              height: "100%",
-              width: "100%",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              zIndex: -1,
-            }}
-          >
+        <div className="relative min-h-screen">
+          <div className="absolute inset-0 w-full h-full -z-10">
+            <Image
+              src="/img/2.png"
+              alt="Background"
+              fill
+              placeholder="blur"
+              priority
+              blurDataURL={blurData["2.png"]}
+              className="object-cover"
+              sizes="100vw"
+            />
             <div className="absolute inset-0 bg-black opacity-50"></div>
           </div>
           <Skills />

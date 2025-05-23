@@ -1,37 +1,32 @@
 import { useState, useEffect } from "react";
 import { Code, Database, TrendingUp } from "lucide-react";
-
-const skills = [
-  {
-    name: "Données/IA",
-    elements: ["Machine Learning", "Deep Learning", "Tensorflow", "Keras"],
-  },
-  {
-    name: "Backends",
-    elements: ["Node.js", "Nest.js", "Kafka", "API Rest & GraphQL"],
-  },
-  { name: "Frontends", elements: ["Next.js", "Flutter"] },
-  { name: "Langages", elements: ["TypeScript", "Python", "Java"] },
-];
+import { Skill } from "../../application/models/skill";
+import SkillService from "@/app/application/services/skill.service";
 
 export default function Skills() {
-  const [_, setAnimated] = useState(false);
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const element = document.getElementById("skills");
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        if (rect.top <= window.innerHeight && rect.bottom >= 0) {
-          setAnimated(true);
-          window.removeEventListener("scroll", handleScroll);
-        }
+    const fetchSkills = async () => {
+      try {
+        const skillsData = await SkillService.getSkills();
+        setSkills(skillsData);
+      } catch (err) {
+        setError("Erreur lors du chargement des compétences");
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    fetchSkills();
   }, []);
+
+  if (loading) return <div className="text-center py-20">Chargement...</div>;
+  if (error)
+    return <div className="text-center py-20 text-red-500">{error}</div>;
 
   return (
     <section id="skills" className="py-20">
@@ -40,13 +35,13 @@ export default function Skills() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skills.map((skill) => (
             <div
-              key={skill.name}
+              key={skill.id}
               className="bg-[#11101D]/40 backdrop-blur-sm backdrop-filter rounded-lg shadow-md p-6"
             >
               <div className="flex items-center mb-4">
-                {skill.name === "Données/IA" ? (
+                {skill.category === "Données/IA" ? (
                   <Database className="w-6 h-6 text-[#FFAA00] mr-2" />
-                ) : skill.name === "Backends" ? (
+                ) : skill.category === "Backends" ? (
                   <Code className="w-6 h-6 text-[#FFAA00] mr-2" />
                 ) : (
                   <TrendingUp className="w-6 h-6 text-[#FFAA00] mr-2" />

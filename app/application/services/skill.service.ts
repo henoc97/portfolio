@@ -1,37 +1,39 @@
-// services/skillService.ts
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { Skill } from '../models/skill';
 import { db } from './firebase.config';
-import Skill from '../models/skill';
-import { collection, getDocs, addDoc, setDoc, deleteDoc, doc } from 'firebase/firestore';
 
-const skillService = {
+const SkillService = {
+    COLLECTION_NAME: 'skills',
     async getSkills(): Promise<Skill[]> {
-        const snapshot = await getDocs(collection(db, 'skills'));
-        return snapshot.docs.map(doc => ({
+        const skillsCollection = collection(db, this.COLLECTION_NAME);
+        const skillsSnapshot = await getDocs(skillsCollection);
+        return skillsSnapshot.docs.map(doc => ({
             id: doc.id,
-            name: doc.data().name,
-            level: doc.data().level
-        }));
+            ...doc.data()
+        } as Skill));
     },
 
-    async createSkill(skill: Skill): Promise<Skill> {
-        const docRef = await addDoc(collection(db, 'skills'), {
-            name: skill.name,
-            level: skill.level
-        });
-        skill.id = docRef.id;
-        return skill;
+    async createSkill(skill: Omit<Skill, 'id'>): Promise<Skill> {
+        const docRef = await addDoc(collection(db, this.COLLECTION_NAME), skill);
+        return {
+            id: docRef.id,
+            ...skill
+        };
     },
 
     async updateSkill(skill: Skill): Promise<void> {
-        await setDoc(doc(db, 'skills', skill.id!), {
+        const skillRef = doc(db, this.COLLECTION_NAME, skill.id);
+        await updateDoc(skillRef, {
             name: skill.name,
-            level: skill.level
+            category: skill.category,
+            elements: skill.elements
         });
     },
 
     async deleteSkill(id: string): Promise<void> {
-        await deleteDoc(doc(db, 'skills', id));
+        const skillRef = doc(db, this.COLLECTION_NAME, id);
+        await deleteDoc(skillRef);
     }
-};
+}
 
-export default skillService;
+export default SkillService; 

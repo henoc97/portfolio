@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
 import emailjs from "@emailjs/browser";
+import Image from "next/image";
+import blurData from "@/public/img/blur-data.json";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -28,10 +30,10 @@ export default function Contact() {
       };
 
       await emailjs.send(
-        "service_74agnqv",
-        "template_x9ctwcl",
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
         templateParams,
-        "7sKq-WjOU2_yCpEEZ"
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ""
       );
 
       console.log("Email envoyé avec succès!");
@@ -44,19 +46,19 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="bg-[#11101D]/70 backdrop-blur-sm backdrop-filter text-[#F5F5F5] py-20"
+      className="relative bg-[#11101D]/70 backdrop-blur-sm backdrop-filter text-[#F5F5F5] py-20"
     >
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/img/5.png')",
-          height: "100%",
-          width: "100%",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          zIndex: -1,
-        }}
-      >
+      <div className="absolute inset-0 w-full h-full -z-10">
+        <Image
+          src="/img/5.png"
+          alt="Background"
+          fill
+          priority
+          placeholder="blur"
+          blurDataURL={blurData["5.png"]}
+          className="object-cover"
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
       <div className="container mx-auto px-4">

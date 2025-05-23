@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import blurData from "@/public/img/blur-data.json";
+
 import {
   Menu,
   X,
@@ -24,16 +27,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen text-[#F5F5F5] relative">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/img/1.png')",
-          height: "24%",
-          width: "100%",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <div className="absolute inset-0 h-[24%] w-full">
+        <Image
+          src="/img/1.png"
+          alt="Background"
+          fill
+          placeholder="blur"
+          priority
+          blurDataURL={blurData["1.png"]}
+          className="object-cover"
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
       <header className="sticky top-0 z-50 w-full bg-[#11101D]/40 backdrop-blur-sm backdrop-filter">

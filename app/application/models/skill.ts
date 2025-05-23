@@ -1,15 +1,8 @@
 // models/Skill.ts
-class Skill {
+export interface Skill {
     id: string;
     name: string;
-    level: string;
-
-    constructor(id: string, name: string, level: string) {
-        this.id = id;
-        this.name = name;
-        this.level = level;
-    }
+    category: string;
+    elements: string[];
 }
-
-export default Skill;
 

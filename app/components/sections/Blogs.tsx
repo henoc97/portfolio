@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import blurData from "@/public/img/blur-data.json";
+import Image from "next/image";
 import blogService from "@/app/application/services/blog.service";
 import Blog from "@/app/application/models/blog";
 
@@ -22,17 +24,17 @@ export default function Blogs() {
 
   return (
     <section id="blog" className="relative py-20">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/img/3.png')",
-          height: "100%",
-          width: "100%",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          zIndex: -1,
-        }}
-      >
+      <div className="absolute inset-0 w-full h-full">
+        <Image
+          src="/img/3.png"
+          alt="Background"
+          fill
+          priority
+          placeholder="blur"
+          blurDataURL={blurData["3.png"]}
+          className="object-cover"
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
       <div className="container mx-auto px-4 relative z-10">
