@@ -14,8 +14,9 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
+import { Suspense } from "react";
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +45,8 @@ export default function LoginPage() {
       const user = await login({ email, password });
       console.log("Connexion réussie, utilisateur:", user);
       console.log("Redirection vers /admin...");
-      router.push("/admin");
+      const redirectTo = searchParams.get("redirectTo") || "/";
+      router.push(redirectTo);
     } catch (err) {
       console.error("Erreur de connexion:", err);
       setError(err instanceof Error ? err.message : "Une erreur est survenue");
@@ -107,5 +109,13 @@ export default function LoginPage() {
         </form>
       </Card>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
