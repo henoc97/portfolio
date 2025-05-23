@@ -27,6 +27,9 @@ const AdminDashboard: React.FC = () => {
               <Link href="/admin/project">
                 <Button>Project</Button>
               </Link>
+              <Link href="/admin/portfolio">
+                <Button>Portfolio</Button>
+              </Link>
               <Button variant="destructive" onClick={() => logout()}>
                 Déconnexion
               </Button>

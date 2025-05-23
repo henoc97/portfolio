@@ -17,31 +17,30 @@ import {
   FaFacebook,
 } from "react-icons/fa";
 import Image from "next/image";
-import { useAuth } from "./application/hooks/useAuth";
 import { useEffect, useState } from "react";
-import userService from "./application/services/user.service";
+import portfolioService from "./application/services/portfolio.service";
+import { PortfolioInfo } from "./application/models/portfolio";
 
 export default function Home() {
-  const { user } = useAuth();
-  const [userData, setUserData] = useState<any>(null);
+  const [portfolioInfo, setPortfolioInfo] = useState<PortfolioInfo | null>(
+    null
+  );
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchPortfolioInfo = async () => {
       try {
-        const data = await userService.getUser(user?.id || "");
-        setUserData(data);
+        const data = await portfolioService.getPortfolioInfo();
+        setPortfolioInfo(data);
       } catch (error) {
         console.error(
-          "Erreur lors de la récupération des données utilisateur:",
+          "Erreur lors de la récupération des informations du portfolio:",
           error
         );
       }
     };
 
-    if (user?.id) {
-      fetchUserData();
-    }
-  }, [user]);
+    fetchPortfolioInfo();
+  }, []);
 
   return (
     <div>
@@ -70,9 +69,9 @@ export default function Home() {
         <footer className="bg-gray-900 text-white py-8">
           <div className="container mx-auto px-4">
             <div className="flex justify-center space-x-6">
-              {userData?.linkedin && (
+              {portfolioInfo?.socialLinks.linkedin && (
                 <a
-                  href={userData.linkedin}
+                  href={portfolioInfo.socialLinks.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-blue-500 transition-colors"
@@ -80,9 +79,9 @@ export default function Home() {
                   <FaLinkedin size={30} />
                 </a>
               )}
-              {userData?.github && (
+              {portfolioInfo?.socialLinks.github && (
                 <a
-                  href={userData.github}
+                  href={portfolioInfo.socialLinks.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-gray-400 transition-colors"
@@ -90,9 +89,9 @@ export default function Home() {
                   <FaGithub size={30} />
                 </a>
               )}
-              {userData?.whatsapp && (
+              {portfolioInfo?.socialLinks.whatsapp && (
                 <a
-                  href={userData.whatsapp}
+                  href={`https://wa.me/+${portfolioInfo.socialLinks.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-green-500 transition-colors"
@@ -100,9 +99,9 @@ export default function Home() {
                   <FaWhatsapp size={30} />
                 </a>
               )}
-              {userData?.twitter && (
+              {portfolioInfo?.socialLinks.twitter && (
                 <a
-                  href={userData.twitter}
+                  href={portfolioInfo.socialLinks.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-blue-400 transition-colors"
@@ -110,9 +109,9 @@ export default function Home() {
                   <FaTwitter size={30} />
                 </a>
               )}
-              {userData?.instagram && (
+              {portfolioInfo?.socialLinks.instagram && (
                 <a
-                  href={userData.instagram}
+                  href={portfolioInfo.socialLinks.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-pink-500 transition-colors"
@@ -120,9 +119,9 @@ export default function Home() {
                   <FaInstagram size={30} />
                 </a>
               )}
-              {userData?.facebook && (
+              {portfolioInfo?.socialLinks.facebook && (
                 <a
-                  href={userData.facebook}
+                  href={portfolioInfo.socialLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-blue-600 transition-colors"

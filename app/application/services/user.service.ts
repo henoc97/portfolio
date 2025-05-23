@@ -8,7 +8,6 @@ import {
     sendPasswordResetEmail,
     UserCredential,
     signOut,
-    onAuthStateChanged
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { User, AuthUser, AdminVerification } from '../models/user';
@@ -53,18 +52,12 @@ const userService = {
         // Envoyer l'email de vérification
         await sendEmailVerification(userCredential.user);
 
+        // Séparer les métadonnées des données utilisateur de base
+        const { ...userData } = user;
+
         await setDoc(doc(db, 'users', userId), {
-            name: user.name,
-            email: user.email,
-            bio: user.bio,
-            role: user.role,
+            ...userData,
             emailVerified: false,
-            whatsapp: user.whatsapp,
-            github: user.github,
-            linkedin: user.linkedin,
-            twitter: user.twitter,
-            instagram: user.instagram,
-            facebook: user.facebook
         });
 
         return { id: userId, ...user, emailVerified: false };
@@ -78,7 +71,6 @@ const userService = {
             throw new Error('Utilisateur non connecté');
         }
 
-        // Vérifier le code de vérification (à implémenter selon votre logique)
         const verificationRef = collection(db, 'adminVerifications');
         const q = query(verificationRef,
             where('email', '==', verification.email),
@@ -90,7 +82,6 @@ const userService = {
             throw new Error('Code de vérification invalide');
         }
 
-        // Mettre à jour le statut de vérification
         await setDoc(doc(db, 'users', user.uid), {
             emailVerified: true
         }, { merge: true });
@@ -105,27 +96,25 @@ const userService = {
         const docRef = doc(db, 'users', id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-            const data = docSnap.data() as Omit<User, 'id'>;
-            return { id: docSnap.id, ...data };
+            const data = docSnap.data();
+            return {
+                id: docSnap.id,
+                email: data.email,
+                role: data.role,
+                emailVerified: data.emailVerified,
+            };
         } else {
             throw new Error('Utilisateur non trouvé');
         }
     },
 
     async updateUser(user: User): Promise<void> {
+        const { ...userData } = user;
         await setDoc(doc(db, 'users', user.id), {
-            name: user.name,
-            email: user.email,
-            bio: user.bio,
-            role: user.role,
-            whatsapp: user.whatsapp,
-            github: user.github,
-            linkedin: user.linkedin,
-            twitter: user.twitter,
-            instagram: user.instagram,
-            facebook: user.facebook
+            ...userData,
         }, { merge: true });
     },
+
 
     async deleteUser(id: string): Promise<void> {
         await deleteDoc(doc(db, 'users', id));
